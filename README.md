@@ -22,12 +22,14 @@ into it, so there is no duplicated content.
 combine-assistant/
 ├── VERSION
 ├── bin/setup.sh              opencode: source to point at config/
+├── bin/setup-omp.sh          omp: source to build an omp agent dir from config/
 ├── script/cvmfs-deploy.sh    stage + publish config/ to CVMFS
 ├── .mcp.json                 Claude Code: MCP registration
 ├── AGENTS.md            -> config/AGENTS.md      (symlink)
 ├── .claude/skills      -> ../config/skills       (symlink)
 └── config/
     ├── opencode.json         providers, model, MCP servers, permissions
+    ├── omp/                  the same for omp: models.yml, mcp.json, config.yml
     ├── AGENTS.md             persona / system prompt
     └── skills/combine/
         └── SKILL.md          routing + execution guidance
@@ -83,6 +85,30 @@ Keys are per-user (there is no shared key) and must belong to the
 
 It also keeps the opencode DB on local fs (EOS can't do SQLite WAL) and
 disables opencode autoupdate (versions come from CVMFS).
+
+### omp
+
+[omp](https://omp.sh) (oh-my-pi, MIT) is a Claude Code style terminal agent that
+talks to any OpenAI-compatible endpoint, so it runs the assistant unmodified,
+with no fork to maintain:
+
+```bash
+curl -fsSL https://omp.sh/install | sh   # or: brew install can1357/tap/omp
+source ./bin/setup-omp.sh                # builds /tmp/$USER-combine-assistant-omp/agent
+export AIGW_API_KEY=<key>                # same key as above
+omp
+```
+
+`setup-omp.sh` copies `config/omp/` (aigw models, the two MCP servers, the
+permission policy), `config/AGENTS.md` and `config/skills/` into a per-user omp
+agent directory and points `PI_CODING_AGENT_DIR` at it. The bash policy mirrors
+`opencode.json`: the same commands are allowed and everything else needs
+approval; in headless mode (`omp -p`) a call that needs approval fails and the
+model continues instead of waiting. Config files of other tools (Claude Code,
+opencode, Cursor, …) found in your home or project are ignored, like
+`OPENCODE_DISABLE_PROJECT_CONFIG` for opencode. `COMBINE_ASSISTANT_NO_WEB=1`
+also disables omp's built-in web fetch and search. Pin the omp version for
+reproducible runs (`--ref v18.12.5` with the install script).
 
 ### Model / credentials
 

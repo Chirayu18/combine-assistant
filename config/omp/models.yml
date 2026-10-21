@@ -1,0 +1,45 @@
+# CERN AI Gateway, same models as combine-assistant's opencode.json (aigw provider).
+# apiKey names the environment variable that holds the per-user key.
+providers:
+  aigw:
+    baseUrl: https://aigw.cern.ch/v1
+    api: openai-completions
+    apiKey: AIGW_API_KEY
+    auth: apiKey
+    models:
+      - id: qwen3.8-27b-fp16
+        name: Qwen 3.8 27B FP16 (aigw, CERN self-hosted)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 64000
+        maxTokens: 8192
+      - id: gpt-5.6-luna-preview
+        name: GPT-5.6 Luna (aigw)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 922000
+        maxTokens: 128000
+      - id: gpt-5.6-terra-preview
+        name: GPT-5.6 Terra (aigw)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 922000
+        maxTokens: 128000
+      - id: gpt-5.6-sol-preview
+        name: GPT-5.6 Sol (aigw)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 922000
+        maxTokens: 128000
+      - id: glm-5.3-flash-int4
+        name: GLM-5.3 Flash INT4 (aigw, CERN self-hosted, MoE reasoning)
+        reasoning: true
+        input: [text, image]
+        contextWindow: 1048576
+        maxTokens: 32768
+      - id: gemma-4-12b-it-qat-w4a16-ct
+        name: Gemma 4 12B INT4 (aigw, CERN self-hosted, small)
+        reasoning: false
+        input: [text, image]
+        contextWindow: 131072
+        maxTokens: 8192

@@ -1,0 +1,47 @@
+# combine-assistant on omp. Mirrors the opencode.json 0.5.5 policy:
+# bash prompts by default, with the same read-only and Combine commands allowed.
+# A prompt in headless mode (-p / --mode json) fails the call instead of hanging.
+modelRoles:
+  default: aigw/qwen3.8-27b-fp16
+  smol: aigw/qwen3.8-27b-fp16
+
+# Only native .omp config: ignore Claude/Codex/opencode/Cursor/... files found
+# in $HOME or in the working directory (opencode used OPENCODE_DISABLE_PROJECT_CONFIG).
+disabledProviders: [claude, codex, gemini, opencode, cursor, windsurf, cline, github, vscode, agents, agents-md, claude-md, mcp-json, claude-plugins, agent-plugins, omp-plugins]
+
+tools:
+  approvalMode: write
+  approval:
+    bash: prompt
+    eval: prompt
+
+bash:
+  patterns:
+    - { match: "rg *--pre*", approval: prompt }
+    - { match: "git status*", approval: allow }
+    - { match: "git diff*", approval: allow }
+    - { match: "git log*", approval: allow }
+    - { match: "ls *", approval: allow }
+    - { match: "command -v *", approval: allow }
+    - { match: "which *", approval: allow }
+    - { match: "combine *", approval: allow }
+    - { match: "text2workspace.py *", approval: allow }
+    - { match: "combineCards.py *", approval: allow }
+    - { match: "combineTool.py *", approval: allow }
+    - { match: "echo *", approval: allow }
+    - { match: "base64 *", approval: allow }
+    - { match: "cat *", approval: allow }
+    - { match: "head *", approval: allow }
+    - { match: "tail *", approval: allow }
+    - { match: "grep *", approval: allow }
+    - { match: "rg *", approval: allow }
+    - { match: "wc *", approval: allow }
+    - { match: "sort *", approval: allow }
+    - { match: "uniq *", approval: allow }
+    - { match: "cut *", approval: allow }
+    - { match: "tr *", approval: allow }
+    - { match: "diff *", approval: allow }
+    - { match: "pwd*", approval: allow }
+    - { match: "file *", approval: allow }
+    - { match: "stat *", approval: allow }
+    - { match: "du *", approval: allow }

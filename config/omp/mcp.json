@@ -1,0 +1,13 @@
+{
+  "$schema": "https://raw.githubusercontent.com/can1357/oh-my-pi/main/packages/coding-agent/src/config/mcp-schema.json",
+  "mcpServers": {
+    "combine": {
+      "type": "http",
+      "url": "https://combine-mcp-git-combine-mcp.app.cern.ch/mcp"
+    },
+    "combine-run-remote": {
+      "type": "http",
+      "url": "https://combine-run-mcp-git-combine-mcp.app.cern.ch/mcp"
+    }
+  }
+}
